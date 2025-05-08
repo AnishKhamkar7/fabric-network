@@ -20,7 +20,7 @@ if [ ! -z "$1" ]; then
   CHANNEL_NAME=$1
 fi
 
-export FABRIC_CFG_PATH=${PWD}/../config
+export FABRIC_CFG_PATH=${PWD}/../../config
 
 export PATH=$PATH:~/go/src/github.com/AnishKhamkar7/fabric-samples/bin
 
