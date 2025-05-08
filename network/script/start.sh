@@ -28,6 +28,7 @@ echo "Creating crypto material using cryptogen..."
 cd ..
 mkdir -p crypto-config
 cryptogen generate --config=../config/crypto-config.yaml --output="crypto-config"
+cd ..
 cd network
 
 echo "Generating channel artifacts..."
