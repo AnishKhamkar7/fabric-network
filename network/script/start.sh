@@ -22,7 +22,7 @@ fi
 
 export FABRIC_CFG_PATH=${PWD}/../config
 
-
+export PATH=$PATH:~/go/src/github.com/AnishKhamkar7/fabric-samples/bin
 
 echo "Creating crypto material using cryptogen..."
 cd ..
