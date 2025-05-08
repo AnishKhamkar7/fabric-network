@@ -27,7 +27,7 @@ export PATH=$PATH:~/go/src/github.com/AnishKhamkar7/fabric-samples/bin
 echo "Creating crypto material using cryptogen..."
 cd ..
 mkdir -p crypto-config
-cryptogen generate --config=./config/crypto-config.yaml --output="crypto-config"
+cryptogen generate --config=../config/crypto-config.yaml --output="crypto-config"
 cd network
 
 echo "Generating channel artifacts..."
