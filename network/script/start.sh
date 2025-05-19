@@ -5,6 +5,8 @@
 
 set -e
 
+chmod +x start.sh 
+
 # Configuration variables
 CHANNEL_NAME="mychannel"
 CHAINCODE_NAME="asset-transfer"
@@ -53,23 +55,23 @@ generate_crypto() {
 }
 
 # Function to generate channel artifacts
-generate_artifacts() {
-  echo "=== Generating Channel Artifacts ==="
-  mkdir -p ../config
-  
-  echo "Generating genesis block..."
-  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ../config/genesis.block
-  
-  echo "Generating channel transaction..."
-  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ../config/${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME
-  
-  echo "Generating anchor peer updates for Org1..."
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ../config/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
-  
-  echo "Generating anchor peer updates for Org2..."
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ../config/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
-  
-  echo "✅ Channel artifacts generated successfully!"
+  generate_artifacts() {
+    echo "=== Generating Channel Artifacts ==="
+    mkdir -p channel-artifacts
+    
+    echo "Generating genesis block..."
+    configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ../config/genesis.block
+    
+    echo "Generating channel transaction..."
+    configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ../config/${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME
+    
+    echo "Generating anchor peer updates for Org1..."
+    configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ../config/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+    
+    echo "Generating anchor peer updates for Org2..."
+    configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ../config/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+    
+    echo "✅ Channel artifacts generated successfully!"
 }
 
 # Function to start the network
