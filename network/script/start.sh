@@ -46,12 +46,26 @@ print_help() {
 
 # Function to generate crypto material
 generate_crypto() {
-  echo "=== Generating Crypto Material ==="
-  cd ..
-  mkdir -p crypto-config
-  cryptogen generate --config=../config/crypto-config.yaml --output="../config/crypto-config"
-  cd network
-  echo "✅ Crypto material generated successfully!"
+  echo "Cleaning old certificates and artifacts..."
+  rm -rf crypto-config channel-artifacts
+
+  # Generate crypto material using cryptogen
+  echo "Generating crypto material..."
+  cryptogen generate --config=./crypto-config.yaml
+
+  # Generate channel artifacts (genesis block and channel transaction)
+  echo "Generating channel artifacts..."
+  mkdir -p channel-artifacts
+
+  # Generate Genesis Block
+  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ./channel-artifacts/genesis.block -configPath ./configtx
+
+  # Generate Channel Transaction
+  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID mychannel -configPath ./configtx
+
+  # Generate Anchor Peer Updates
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID mychannel -asOrg Org1MSP -configPath ./configtx
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID mychannel -asOrg Org2MSP -configPath ./configtx
 }
 
 # Function to generate channel artifacts
@@ -305,7 +319,7 @@ case $MODE in
     echo "=== Running Full Network Setup ==="
     echo "Channel name: $CHANNEL_NAME"
     generate_crypto
-    generate_artifacts
+    # generate_artifacts
     start_network
     create_channel
     deploy_chaincode
