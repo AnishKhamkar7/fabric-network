@@ -54,21 +54,25 @@ generate_crypto() {
   ls -l ./crypto-config.yaml
   # Generate crypto material using cryptogen
   echo "Generating crypto material..."
-  cryptogen generate --config=../config/crypto-config.yaml
+  cryptogen generate --config=../config/crypto-config.yaml --output="../config/crypto-config"
 
   # Generate channel artifacts (genesis block and channel transaction)
-  echo "Generating channel artifacts..."
+  echo "=== Generating Channel Artifacts ==="
   mkdir -p channel-artifacts
-
-  # Generate Genesis Block
-  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ./channel-artifacts/genesis.block -configPath ./configtx
-
-  # Generate Channel Transaction
-  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID mychannel -configPath ./configtx
-
-  # Generate Anchor Peer Updates
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID mychannel -asOrg Org1MSP -configPath ./configtx
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID mychannel -asOrg Org2MSP -configPath ./configtx
+  
+  echo "Generating genesis block..."
+  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ../config/genesis.block
+  
+  echo "Generating channel transaction..."
+  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ../config/${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME
+  
+  echo "Generating anchor peer updates for Org1..."
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ../config/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+  
+  echo "Generating anchor peer updates for Org2..."
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ../config/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+  
+  echo "✅ Channel artifacts generated successfully!"
 }
 
 # Function to generate channel artifacts
