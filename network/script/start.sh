@@ -51,10 +51,9 @@ generate_crypto() {
 
  echo "Current directory: $(pwd)"
   echo "Checking for crypto-config.yaml..."
-  ls -l ./crypto-config.yaml
   # Generate crypto material using cryptogen
   echo "Generating crypto material..."
-  cryptogen generate --config=../config/crypto-config.yaml --output="../config/crypto-config"
+  cryptogen generate --config=../../config/crypto-config.yaml --output="../config/crypto-config"
 
   # Generate channel artifacts (genesis block and channel transaction)
   echo "=== Generating Channel Artifacts ==="
