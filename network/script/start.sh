@@ -53,14 +53,14 @@ generate_crypto() {
   echo "Checking for crypto-config.yaml..."
   # Generate crypto material using cryptogen
   echo "Generating crypto material..."
-  cryptogen generate --config=../../config/crypto-config.yaml --output="../config/crypto-config"
+  cryptogen generate --config=../../config/crypto-config.yaml --output="../../config/crypto-config"
 
   # Generate channel artifacts (genesis block and channel transaction)
   echo "=== Generating Channel Artifacts ==="
   mkdir -p channel-artifacts
   
   echo "Generating genesis block..."
-  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ../config/genesis.block
+  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBl  ock ../config/genesis.block
   
   echo "Generating channel transaction..."
   configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ../config/${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME
