@@ -49,9 +49,12 @@ generate_crypto() {
   echo "Cleaning old certificates and artifacts..."
   rm -rf crypto-config channel-artifacts
 
+ echo "Current directory: $(pwd)"
+  echo "Checking for crypto-config.yaml..."
+  ls -l ./crypto-config.yaml
   # Generate crypto material using cryptogen
   echo "Generating crypto material..."
-  cryptogen generate --config=./crypto-config.yaml
+  cryptogen generate --config=../config/crypto-config.yaml
 
   # Generate channel artifacts (genesis block and channel transaction)
   echo "Generating channel artifacts..."
