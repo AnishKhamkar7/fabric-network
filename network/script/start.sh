@@ -60,7 +60,7 @@ generate_crypto() {
   mkdir -p channel-artifacts
   
   echo "Generating genesis block..."
-  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBl  ock ../config/genesis.block
+  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ../config/genesis.block
   
   echo "Generating channel transaction..."
   configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ../config/${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME
