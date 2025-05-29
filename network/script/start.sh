@@ -98,7 +98,7 @@ create_channel() {
   echo "=== Creating Channel: ${CHANNEL_NAME} ==="
   docker exec cli peer channel create -o orderer.example.com:7050 \
     -c $CHANNEL_NAME \
-    -f /opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/${CHANNEL_NAME}.tx \
+    -f /go/src/github.com/AnishKhamkar7/fabric-network/script/channel-artifacts/${CHANNEL_NAME}.tx \
     --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
   
   echo "✅ Channel created successfully!"
@@ -112,7 +112,7 @@ create_channel() {
   docker exec cli peer channel update \
     -o orderer.example.com:7050 \
     -c $CHANNEL_NAME \
-    -f /opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/Org1MSPanchors.tx \
+    -f /go/src/github.com/AnishKhamkar7/fabric-network/script/channel-artifacts/Org1MSPanchors.tx \
     --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
   
   echo "Joining peer1.org1 to channel..."
@@ -135,7 +135,7 @@ create_channel() {
     cli peer channel update \
     -o orderer.example.com:7050 \
     -c $CHANNEL_NAME \
-    -f /opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/Org2MSPanchors.tx \
+    -f /go/src/github.com/AnishKhamkar7/fabric-network/script/channel-artifacts/Org2MSPanchors.tx \
     --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
   
   echo "Joining peer1.org2 to channel..."
