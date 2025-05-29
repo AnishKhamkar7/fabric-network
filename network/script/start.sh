@@ -99,7 +99,7 @@ create_channel() {
   docker exec cli peer channel create -o orderer.example.com:7050 \
     -c $CHANNEL_NAME \
     -f /go/src/github.com/AnishKhamkar7/fabric-network/script/channel-artifacts/${CHANNEL_NAME}.tx \
-    --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+    --tls --cafile /go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
   
   echo "✅ Channel created successfully!"
   
@@ -113,7 +113,7 @@ create_channel() {
     -o orderer.example.com:7050 \
     -c $CHANNEL_NAME \
     -f /go/src/github.com/AnishKhamkar7/fabric-network/script/channel-artifacts/Org1MSPanchors.tx \
-    --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+    --tls --cafile /go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
   
   echo "Joining peer1.org1 to channel..."
   docker exec -e CORE_PEER_ADDRESS=peer1.org1.example.com:7051 \
