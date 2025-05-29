@@ -63,13 +63,13 @@ generate_crypto() {
   configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ../config/genesis.block
   
   echo "Generating channel transaction..."
-  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ../config/${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME
+  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME
   
   echo "Generating anchor peer updates for Org1..."
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ../config/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
   
   echo "Generating anchor peer updates for Org2..."
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ../config/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
   
   echo "✅ Channel artifacts generated successfully!"
 }
@@ -98,7 +98,7 @@ create_channel() {
   echo "=== Creating Channel: ${CHANNEL_NAME} ==="
   docker exec cli peer channel create -o orderer.example.com:7050 \
     -c $CHANNEL_NAME \
-    -f /opt/gopath/src/github.com/hyperledger/fabric/peer/config/${CHANNEL_NAME}.tx \
+    -f /opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/${CHANNEL_NAME}.tx \
     --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
   
   echo "✅ Channel created successfully!"
@@ -112,7 +112,7 @@ create_channel() {
   docker exec cli peer channel update \
     -o orderer.example.com:7050 \
     -c $CHANNEL_NAME \
-    -f /opt/gopath/src/github.com/hyperledger/fabric/peer/config/Org1MSPanchors.tx \
+    -f /opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/Org1MSPanchors.tx \
     --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
   
   echo "Joining peer1.org1 to channel..."
@@ -135,7 +135,7 @@ create_channel() {
     cli peer channel update \
     -o orderer.example.com:7050 \
     -c $CHANNEL_NAME \
-    -f /opt/gopath/src/github.com/hyperledger/fabric/peer/config/Org2MSPanchors.tx \
+    -f /opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts/Org2MSPanchors.tx \
     --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
   
   echo "Joining peer1.org2 to channel..."
