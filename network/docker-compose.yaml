@@ -58,7 +58,7 @@ services:
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-    working_dir: go/src/github.com/AnishKhamkar7/fabric-network
+    working_dir: /go/src/github.com/AnishKhamkar7/fabric-network
     command: orderer
     volumes:
       - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
@@ -90,7 +90,7 @@ services:
       # Chaincode related variables
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric-test-network_test
-    working_dir: go/src/github.com/AnishKhamkar7/fabric-network/peer
+    working_dir: /go/src/github.com/AnishKhamkar7/fabric-network/peer
     command: peer node start
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
@@ -105,6 +105,7 @@ services:
     container_name: peer0.org2.example.com
     image: hyperledger/fabric-peer:latest
     environment:
+    
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_PEER_ID=peer0.org2.example.com
       - CORE_PEER_ADDRESS=peer0.org2.example.com:9051
@@ -122,7 +123,7 @@ services:
       # Chaincode related variables
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric-test-network_test
-    working_dir: go/src/github.com/AnishKhamkar7/fabric-network/peer
+    working_dir: /go/src/github.com/AnishKhamkar7/fabric-network/peer
     command: peer node start
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
@@ -139,7 +140,7 @@ services:
     tty: true
     stdin_open: true
     environment:
-      - GOPATH=go
+      - GOPATH=/go
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - FABRIC_LOGGING_SPEC=INFO
       # Org1 settings
@@ -147,18 +148,18 @@ services:
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-      - CORE_PEER_MSPCONFIGPATH=go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+      - CORE_PEER_TLS_CERT_FILE=/go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/go/src/github.com/AnishKhamkar7/fabric-network/config/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
     working_dir: go/src/github.com/AnishKhamkar7/fabric-network
     command: /bin/bash
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
-      - ./chaincode/:go/src/github.com/chaincode
-      - ./crypto-config:go/src/github.com/AnishKhamkar7/fabric-network/crypto
-      - ./channel-artifacts:go/src/github.com/AnishKhamkar7/fabric-network/channel-artifacts
-      - ./scripts:go/src/github.com/AnishKhamkar7/fabric-network/scripts
+      - ./chaincode/:/go/src/github.com/chaincode
+      - ./crypto-config:/go/src/github.com/AnishKhamkar7/fabric-network/crypto
+      - ./channel-artifacts:/go/src/github.com/AnishKhamkar7/fabric-network/channel-artifacts
+      - ./scripts:/go/src/github.com/AnishKhamkar7/fabric-network/scripts
     depends_on:
       - orderer.example.com
       - peer0.org1.example.com

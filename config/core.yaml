@@ -1,0 +1,8 @@
+logging:
+  level: info
+
+ledger:
+  blockchain:
+    state:
+      couchDBConfig:
+        couchDBAddress: couchdb:5984
